@@ -43,14 +43,15 @@ export default function Home() {
       return;
     }
     if (magicMode) {
-      // Only digits are allowed, up to 5 presses
+      // Only digits are allowed, up to numOfDigitsBeforeFullNumberIsShown presses
+      const numOfDigitsBeforeFullNumberIsShown = 9;
       if (/^[0-9]$/.test(val)) {
-        if (magicDigits < 4) {
+        if (magicDigits < numOfDigitsBeforeFullNumberIsShown) {
           // reveal one more digit
-            const next = magicDigits + 1;
-            setMagicDigits(next);
-            setDisplay(magicNumber.slice(0, next));
-        } else if (magicDigits === 4) {
+          const next = magicDigits + 1;
+          setMagicDigits(next);
+          setDisplay(magicNumber.slice(0, next));
+        } else if (magicDigits === numOfDigitsBeforeFullNumberIsShown) {
           // On 5th digit reveal full number
           setMagicDigits(magicNumber.length); // mark fully revealed
           setDisplay(magicNumber);
