@@ -207,6 +207,9 @@ export default function Home() {
                   onMouseDown={handleHiddenBtnDown}
                   onMouseUp={handleHiddenBtnUp}
                   onMouseLeave={handleHiddenBtnUp}
+                  onTouchStart={e => { e.preventDefault(); handleHiddenBtnDown(); }}
+                  onTouchEnd={e => { e.preventDefault(); handleHiddenBtnUp(); }}
+                  onTouchCancel={e => { e.preventDefault(); handleHiddenBtnUp(); }}
                   aria-label="hidden-magic-mode"
                 >
                   {/* Hidden button */}
