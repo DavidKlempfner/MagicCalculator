@@ -95,30 +95,78 @@ export default function Home() {
       setLastPressed("");
       return;
     }
-    if (val === "+") {
-      if (pending === "+" && acc !== null) {
-        setAcc(acc + parseFloat(display));
-        setDisplay((acc + parseFloat(display)).toString());
+    if (["+", "-", "x", "/"].includes(val)) {
+      if (pending === val && acc !== null) {
+        const currentValue = parseFloat(display);
+        // Check for division by zero
+        if (val === "/" && currentValue === 0) {
+          setDisplay("Error");
+          setAcc(null);
+          setPending(null);
+          setLastPressed(val);
+          return;
+        }
+        
+        let result: number;
+        switch (val) {
+          case "+":
+            result = acc + currentValue;
+            break;
+          case "-":
+            result = acc - currentValue;
+            break;
+          case "x":
+            result = acc * currentValue;
+            break;
+          case "/":
+            result = acc / currentValue;
+            break;
+          default:
+            result = currentValue;
+        }
+        setAcc(result);
+        setDisplay(result.toString());
       } else {
         setAcc(parseFloat(display));
       }
-      setPending("+");
-      setLastPressed("+");
+      setPending(val);
+      setLastPressed(val);
       return;
     }
     if (val === "=") {
-      if (pending === "+" && acc !== null) {
-        const result = acc + parseFloat(display);
+      if (pending && acc !== null) {
+        const currentValue = parseFloat(display);
+        // Check for division by zero
+        if (pending === "/" && currentValue === 0) {
+          setDisplay("Error");
+          setAcc(null);
+          setPending(null);
+          setLastPressed("=");
+          return;
+        }
+
+        let result: number;
+        switch (pending) {
+          case "+":
+            result = acc + currentValue;
+            break;
+          case "-":
+            result = acc - currentValue;
+            break;
+          case "x":
+            result = acc * currentValue;
+            break;
+          case "/":
+            result = acc / currentValue;
+            break;
+          default:
+            result = currentValue;
+        }
         setDisplay(result.toString());
         setAcc(null);
         setPending(null);
       }
       setLastPressed("=");
-      return;
-    }
-    if (["-", "x", "/"].includes(val)) {
-      // Non-functional
-      setLastPressed(val);
       return;
     }
     if (val === ".") {
