@@ -196,48 +196,53 @@ export default function Home() {
   <div className="calc-display text-right text-4xl text-white font-light mb-2 h-20 flex items-end justify-end px-2 select-none" data-testid="display">
           {display}
         </div>
-  <div className="calc-grid grid grid-cols-4 gap-3">
-          {BUTTONS.flat().map((btn, i) => {
-            // Bottom right hidden button
+  <div className="calc-grid grid grid-cols-4 gap-1">
+    {BUTTONS.flat().map((btn, i) => {
+      // Bottom right hidden button
       if (i === BUTTONS.flat().length - 1) {
-              return (
-                <button
-                  key={i}
-                  className="h-14 rounded-full bg-transparent border-none select-none"
-                  style={{ opacity: 0.01, position: "relative" }}
-                  onMouseDown={handleHiddenBtnDown}
-                  onMouseUp={handleHiddenBtnUp}
-                  onMouseLeave={handleHiddenBtnUp}
-                  onTouchStart={e => { e.preventDefault(); handleHiddenBtnDown(); }}
-                  onTouchEnd={e => { e.preventDefault(); handleHiddenBtnUp(); }}
-                  onTouchCancel={e => { e.preventDefault(); handleHiddenBtnUp(); }}
-                  aria-label="hidden-magic-mode"
-                >
-                  {/* Hidden button */}
-                </button>
-              );
-            }
-            return (
-              <button
-                key={i}
-                className={`calc-btn h-14 rounded-full text-xl font-medium shadow transition-all select-none
-                  ${btn === "=" ? "bg-[#FF9500] text-white" :
-                    btn === "+" ? "bg-[#23262F] text-[#FF9500] border border-[#23262F]" :
-                    btn === "CE" ? "bg-[#23262F] text-[#FF3B30] border border-[#23262F]" :
-        btn === "⌫" ? "bg-[#23262F] text-[#FF3B30] border border-[#23262F]" :
-                    isOperator(btn) ? "bg-[#23262F] text-[#A6A6A6] border border-[#23262F]" :
-                    btn === "" ? "bg-transparent border-none" :
-                    "bg-[#343645] text-white border border-[#23262F]"}
-                  ${btn === "" ? "pointer-events-none" : "hover:scale-105 active:scale-95"}`}
-                onClick={() => btn && handlePress(btn)}
-                disabled={btn === ""}
-                aria-label={btn}
-              >
-                {btn}
-              </button>
-            );
-          })}
-        </div>
+        return (
+          <button
+            key={i}
+            className="w-full h-full bg-transparent border-none select-none"
+            style={{ opacity: 0.01, position: "relative" }}
+            onMouseDown={handleHiddenBtnDown}
+            onMouseUp={handleHiddenBtnUp}
+            onMouseLeave={handleHiddenBtnUp}
+            onTouchStart={e => { e.preventDefault(); handleHiddenBtnDown(); }}
+            onTouchEnd={e => { e.preventDefault(); handleHiddenBtnUp(); }}
+            onTouchCancel={e => { e.preventDefault(); handleHiddenBtnUp(); }}
+            aria-label="hidden-magic-mode"
+          >
+            {/* Hidden button */}
+          </button>
+        );
+      }
+      return (
+        <button
+          key={i}
+          className={`calc-btn w-full h-16 flex items-center justify-center text-xl font-medium shadow transition-all select-none
+            ${btn === "=" ? "bg-[#FF9500] text-white" :
+              btn === "+" ? "bg-[#23262F] text-[#FF9500] border border-[#23262F]" :
+              btn === "CE" ? "bg-[#23262F] text-[#FF3B30] border border-[#23262F]" :
+              btn === "⌫" ? "bg-[#23262F] text-[#FF3B30] border border-[#23262F]" :
+              isOperator(btn) ? "bg-[#23262F] text-[#A6A6A6] border border-[#23262F]" :
+              btn === "" ? "bg-transparent border-none" :
+              "bg-[#343645] text-white border border-[#23262F]"}
+            ${btn === "" ? "pointer-events-none" : "hover:scale-105 active:scale-95"}`}
+          onClick={() => btn && handlePress(btn)}
+          disabled={btn === ""}
+          aria-label={btn}
+          style={{ padding: 0 }}
+        >
+          {btn && (
+            <span className="block w-full h-full rounded-full flex items-center justify-center">
+              {btn}
+            </span>
+          )}
+        </button>
+      );
+    })}
+  </div>
       </div>
     </div>
   );
